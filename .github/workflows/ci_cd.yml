@@ -28,7 +28,17 @@ jobs:
           python -m pip install --upgrade pip
           pip install pytest
           pip install boto3
-          pip install moto 
+          pip install moto
+          #versuch Installation setup.pytest
+          pip install setup
+          # Projektabhängigkeitsprüfung
+          if [ -f lambdaForTestingGithub/requirements.txt ]; then
+            pip install -r lambdaForTestingGithub/requirements.txt
+          elif [ -f requirements.txt ]; then
+            pip install -r requirements.txt
+          else 
+            echo "No requirements found -> continuing"
+          fi
           # installiere das lokale Paket editierbar, damit Imports funktionieren
           pip install -e ./lambdaForTestingGithub || true
 
