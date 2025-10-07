@@ -40,7 +40,7 @@ jobs:
           pip install moto 
           
           # installiere das lokale Paket editierbar, damit Imports funktionieren
-          pip install -e ./lambdaForTestingGithub || true
+          pip install -e ./lambdaForTestingGithub 
 
       - name: Run pytest
         env:
