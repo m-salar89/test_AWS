@@ -42,7 +42,7 @@ jobs:
 
       - name: Run pytest
         env:
-          PYTONPATH: lambdaForTestingGithub/src
+          PYTHONPATH: lambdaForTestingGithub/src
         run: |
           mkdir -p test-reports
           pytest -q --junitxml=test-reports/junit.xml -rA
