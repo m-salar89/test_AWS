@@ -1,64 +1,77 @@
 name: AWS_test
 
-on: 
-
-  push:
-
+on:
+  push: 
     branches: [main]
 
-jobs: 
-
-  test:
-
+jobs:
+  test: 
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: checkout repository
-        uses:  actions/checkout@v4
-      
-      - name: set up Python
-        #bei uses braucht man immer eine version .zB @4 oder @5 jenach verwendetem Program 
-        uses: actions/setup-Python@v5 
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      
-      - name: Build release distrubutions
-        run: |
-          python -m pip install build
-          python -m build
 
-      - name: Install dependencies for test (if any)
-        run: | 
-         
-          # Projektabhängigkeitsprüfung
-          python -m pip install --upgrade pip 
-          pip install pytest
-          pip install boto3
-          pip install moto 
+      # Baut nur, wenn Packaging-Dateien vorhanden sind (wie in der Doku beschrieben).
+      - name: Build release distributions (if packaging present)
+        working-directory: lambdaForTestingGithub
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -f pyproject.toml ] || [ -f setup.py ]; then
+            python -m pip install --upgrade pip build
+            python -m build
+          else
+            echo "No pyproject.toml/setup.py in lambdaForTestingGithub -> skipping build"
+          fi
+
+      - name: Install dependencies for tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --upgrade pip
           if [ -f lambdaForTestingGithub/requirements.txt ]; then
             pip install -r lambdaForTestingGithub/requirements.txt
           elif [ -f requirements.txt ]; then
             pip install -r requirements.txt
-          else 
-            echo "No requirements found -> continuing"
-          fi 
+          else
+            echo "No requirements.txt -> installing minimal test deps"
+            pip install pytest boto3 moto
+          fi
 
-   
-          
-          # installiere das lokale Paket editierbar, damit Imports funktionieren
-          pip install -e ./lambdaForTestingGithub || true
+          # Nur dann editable install, wenn Packaging vorhanden ist
+          if [ -f lambdaForTestingGithub/pyproject.toml ] || [ -f lambdaForTestingGithub/setup.py ]; then
+            pip install -e ./lambdaForTestingGithub
+          else
+            echo "Skipping editable install (no pyproject.toml/setup.py)"
+          fi
 
       - name: Run pytest
-        # damit die lambda-pkg-src importierbar ist, falls die tests die src-Module nutzen
-        env:
-          PYTHONPATH: lambdaFortestingGithub/
+        env: 
+          # src importierbar machen
+          PYTHONPATH: ${{ github.workspace }}/lambdaForTestingGithub/src
+        shell: bash
         run: |
+          set -euo pipefail
           mkdir -p test-reports
-          # führe alle Tests im Repo aus (passt, wenn tests/ oder projekt-root Tests enthält)
-          pytest -q --junitxml=test-reports/junit.xml -rA
-        
+          pytest tests --junitxml=test-reports/junit.xml -q -rA
 
+      - name: Upload test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-report
+          path: test-reports/junit.xml
 
-
-
+      - name: Upload built dists (if any)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-dists
+          path: lambdaForTestingGithub/dist/
+          if-no-files-found: ignore
