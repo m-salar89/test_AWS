@@ -33,12 +33,12 @@ jobs:
             pip install -r requirements.txt
           else 
             echo "No requirements found -> continuing"
-          fi
+          
           python -m pip install --upgrade pip
           pip install pytest
           pip install boto3
           pip install moto 
-          
+          fi
           # installiere das lokale Paket editierbar, damit Imports funktionieren
           #pip install -e ./lambdaForTestingGithub 
 
