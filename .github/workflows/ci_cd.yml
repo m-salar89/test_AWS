@@ -22,13 +22,17 @@ jobs:
         uses: actions/setup-Python@v5 
         with:
           python-version: "3.12"
-        
+      
+      - name: Build release distrubutions
+        run: |
+          
+
       - name: Install dependencies for test (if any)
         run: | 
-
-          # Projektabhängigkeitsprüfung
-          python -m pip install --upgrade pip build
+          python -m pip install build
           python -m build
+          # Projektabhängigkeitsprüfung
+          python -m pip install --upgrade pip 
           pip install pytest
           pip install boto3
           pip install moto 
