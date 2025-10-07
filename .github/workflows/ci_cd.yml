@@ -22,11 +22,6 @@ jobs:
         uses: actions/setup-Python@v5 
         with:
           python-version: "3.12"
-      
-      - name: Build release distrubutions
-        run: |
-          python -m pip install build
-          python -m build
 
       - name: Install dependencies for test (if any)
         run: | 
@@ -52,7 +47,7 @@ jobs:
       - name: Run pytest
         # damit die lambda-pkg-src importierbar ist, falls die tests die src-Module nutzen
         env:
-          PYTHONPATH: lambdaFortestingGithub/
+          PYTHONPATH: lambdaFortestingGithub 
         run: | 
           mkdir -p test-reports
           # führe alle Tests im Repo aus (passt, wenn tests/ oder projekt-root Tests enthält)
