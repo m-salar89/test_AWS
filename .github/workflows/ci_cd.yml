@@ -23,24 +23,35 @@ jobs:
         with:
           python-version: "3.12"
         
-      - name: Install dependencies for test (if any)
+      - name: Install dependencies
+        shell: bash
         run: |
+          set -euo pipefail
           python -m pip install --upgrade pip
-          pip install pytest
-          pip install boto3
-          pip install moto
-          #versuch Installation setup.pytest
-          pip install setup.py
-          # Projektabhängigkeitsprüfung
+
+          # 1) requirements finden und installieren (Repo-Root ODER Unterordner)
+          REQ_FILE=""
           if [ -f lambdaForTestingGithub/requirements.txt ]; then
-            pip install -r lambdaForTestingGithub/requirements.txt
+            REQ_FILE="lambdaForTestingGithub/requirements.txt"
           elif [ -f requirements.txt ]; then
-            pip install -r requirements.txt
-          else 
-            echo "No requirements found -> continuing"
+            REQ_FILE="requirements.txt"
           fi
-          # installiere das lokale Paket editierbar, damit Imports funktionieren
-          pip install -e ./lambdaForTestingGithub || true
+
+          if [ -n "${REQ_FILE}" ]; then
+            echo "Installing from ${REQ_FILE}"
+            pip install -r "${REQ_FILE}"
+          else
+            echo "No requirements.txt found -> installing minimal test deps"
+            pip install pytest boto3 moto
+          fi
+
+          # 2) Nur dann editable install, wenn Paket-Metadaten vorhanden sind
+          if [ -f lambdaForTestingGithub/pyproject.toml ] || [ -f lambdaForTestingGithub/setup.py ]; then
+            pip install -e ./lambdaForTestingGithub
+          else
+            echo "No pyproject.toml/setup.py -> skipping editable install"
+          fi
+
 
       - name: Run pytest
         env:
