@@ -39,6 +39,15 @@ jobs:
           pip install boto3
           pip install moto 
           fi
+
+          - name: Run pytest
+            env:
+              PYTHONPATH: ${{ github.workspace }}/lambdaForTestingGithub/src
+            shell: bash
+            run: |
+              mkdir -p test-reports
+              pytest tests --junitxml=test-reports/junit.xml -q -rA
+
           # installiere das lokale Paket editierbar, damit Imports funktionieren
           #pip install -e ./lambdaForTestingGithub 
 
