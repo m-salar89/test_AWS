@@ -30,7 +30,7 @@ jobs:
           pip install boto3
           pip install moto
           #versuch Installation setup.pytest
-          pip install setup
+          pip install setup.py
           # Projektabhängigkeitsprüfung
           if [ -f lambdaForTestingGithub/requirements.txt ]; then
             pip install -r lambdaForTestingGithub/requirements.txt
