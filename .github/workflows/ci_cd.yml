@@ -18,7 +18,8 @@ jobs:
         uses:  actions/checkout@v4
       
       - name: set up Python
-        uses: actions/setup-Python@v5
+        #bei uses braucht man immer eine version .zB @4 
+        uses: actions/setup-Python@v5 
         with:
           python-version: "3.12"
         
