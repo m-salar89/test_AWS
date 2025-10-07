@@ -45,7 +45,7 @@ jobs:
           PYTHONPATH: lambdaForTestingGithub/src
         run: |
           mkdir -p test-reports
-          pytest -q --junitxml=test-reports/junit.xml -rA
+          pytest tests -q --junitxml=test-reports/junit.xml -rA
         
 
 
