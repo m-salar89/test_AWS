@@ -15,8 +15,8 @@ jobs:
     steps:
 
       - name: checkout repository
-        uses:  actions/checkout
-        
+        uses:  actions/checkout@4
+
 
 
 
