@@ -28,6 +28,14 @@ jobs:
           pip install pytest
           pip install boto3
           pip install moto
+          # Projektabhängigkeitsprüfung
+          if[-f lambdaForTestingGithub/requirements.txt]; then
+            pip install -r lambdaForTestingGithub/requirements.txt
+          elsif [ -f requirements.txt]; then
+            pip install -r requirements.txt
+          else 
+            echo "No requirements found" -> continuing"
+          fi
 
         
 
