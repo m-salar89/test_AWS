@@ -1,0 +1,22 @@
+name: AWS_test
+
+on: 
+
+  push:
+
+    branches: [main]
+
+jobs: 
+
+  test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: checkout repository
+        uses:  actions/checkout
+        
+
+
+
