@@ -16,6 +16,11 @@ jobs:
 
       - name: checkout repository
         uses:  actions/checkout@v4
+      
+      - name: set up Python
+        uses: actions/setup-Python@v5
+        with:
+          python-version: "3.19"
 
 
 
