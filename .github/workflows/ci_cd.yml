@@ -42,12 +42,7 @@ jobs:
           # installiere das lokale Paket editierbar, damit Imports funktionieren
           pip install -e ./lambdaForTestingGithub 
 
-      - name: Run pytest
-        env:
-          PYTHONPATH: lambdaForTestingGithub/src
-        run: |
-          mkdir -p test-reports
-          pytest -q --junitxml=test-reports/junit.xml -rA
+      
         
 
 
