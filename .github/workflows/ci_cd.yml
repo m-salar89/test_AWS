@@ -18,7 +18,7 @@ jobs:
         uses:  actions/checkout@v4
       
       - name: set up Python
-        #bei uses braucht man immer eine version .zB @4 
+        #bei uses braucht man immer eine version .zB @4 oder @5 jenach verwendetem Program 
         uses: actions/setup-Python@v5 
         with:
           python-version: "3.12"
@@ -37,7 +37,8 @@ jobs:
           else 
             echo "No requirements found -> continuing"
           fi
-
+          # installiere das lokale Paket editierbar, damit Imports funktionieren
+          pip install -e ./lambdaForTestingGithub || true
         
 
 
