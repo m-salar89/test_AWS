@@ -11,7 +11,7 @@ from lambda_function import lambda_handler
 
 def test_dateipytestTesten():
 
-    event = {"request": {"userAttributes": {"sub": "user-missing-env"}}}
+    event = {{'body': '"Hello from Lambda!"', 'statusCode': 200}}
 
     result = lambda_handler(event, None)
     print(result)
