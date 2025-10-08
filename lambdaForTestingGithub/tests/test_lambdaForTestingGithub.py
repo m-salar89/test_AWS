@@ -5,7 +5,7 @@ import boto3
 
 import sys
 sys.path.append("src")
-from lambda_funktion import lambda_handler
+from lambda_function import lambda_handler
 
 
 def dateipytestTesten():
@@ -13,5 +13,6 @@ def dateipytestTesten():
     event = {"request": {"userAttributes": {"sub": "user-missing-env"}}}
 
     result = lambda_handler(event, None)
+    print(result)
 
     assert result == event
