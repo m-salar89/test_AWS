@@ -11,7 +11,8 @@ from lambda_function import lambda_handler
 
 def test_dateipytestTesten():
 
-    event = {{'body': '"Hello from Lambda!"', 'statusCode': 200}}
+    event = {'statusCode': 200,
+        'body': json.dumps('Hello from Lambda!')}
 
     result = lambda_handler(event, None)
     print(result)
