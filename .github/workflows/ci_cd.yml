@@ -50,8 +50,9 @@ jobs:
           PYTHONPATH: lambdaForTestingGithub/src
         run: | 
          
-          -p no:warnings
-          pytest -vv
+          ls -la | grep -E '(^| )pytest$'     # Prüfen, ob eine Datei 'pytest' da ist
+          type -a pytest                      # Zeigt, was wirklich aufgerufen wird
+
 
           mkdir -p test-reports 
           # führe alle Tests im Repo aus (passt, wenn tests/ oder projekt-root Tests enthält)
