@@ -52,7 +52,7 @@ jobs:
           mkdir -p test-reports
           # führe alle Tests im Repo aus (passt, wenn tests/ oder projekt-root Tests enthält)
           pytest -q --junitxml=test-reports/junit.xml -rA
-        
+          #um zu testen 
 
 
 
