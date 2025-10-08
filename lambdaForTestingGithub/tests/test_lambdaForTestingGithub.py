@@ -9,7 +9,7 @@ sys.path.append("src")
 from lambda_function import lambda_handler
 
 
-def dateipytestTesten():
+def test_dateipytestTesten():
 
     event = {"request": {"userAttributes": {"sub": "user-missing-env"}}}
 
