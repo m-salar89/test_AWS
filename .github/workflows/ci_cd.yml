@@ -111,6 +111,19 @@ jobs:
         run: |
           aws sts get-caller-identity
           aws lambda list-functions --region "${REGION}" | jq -r '.Functions[].FunctionName' || true
-      #zugangsdaten in Github angelegt
+      
+      - name: Deploy Lambda (update code)
+        run: |
+          test -f "${ZIP_NAME}" || (echo "ZIP not found" && exit 1)
+          if ! aws lambda get-function --function-name "${FUNCTION_NAME}" --region "${REGION}" >/dev/null 2>&1; then
+            echo "ERROR: Function '${FUNCTION_NAME}' not found in region '${REGION}'."
+            echo "Create it once (aws lambda create-function ...) or adjust FUNCTION_NAME/REGION."
+            exit 1
+          fi
+          aws lambda update-function-code \
+            --function-name "${FUNCTION_NAME}" \
+            --zip-file "fileb://$ZIP_NAME" \
+            --region "${REGION}"
+
 
 
