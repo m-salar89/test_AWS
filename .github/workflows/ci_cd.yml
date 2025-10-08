@@ -60,6 +60,29 @@ jobs:
           name: test-reports
           path: test-reports/
 
+  deploy: 
+    needs: test
+    runs-on: ubuntu-latest
+
+    env:
+      FUNCTION_NAME: labdaForTestingGithub
+      REGION: eu-north-1
+      ZIP_NAME: labdaForTestingGithub.zip
+
+    steps: 
+      - name: checkout repository
+        uses: actions/checkout@v4
+
+      - name: Debug workspace (optional, hilft bei Pfadproblemen)
+        run: |
+          pwd
+          ls -la
+          ls -la zl_create_user_json_iot || true
+          ls -la zl_create_user_json_iot/src || true
+
+
+      
+
 
 
 
