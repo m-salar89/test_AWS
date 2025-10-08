@@ -53,7 +53,12 @@ jobs:
           mkdir -p test-reports 
           # führe alle Tests im Repo aus (passt, wenn tests/ oder projekt-root Tests enthält)
           pytest -q --junitxml=test-reports/junit.xml -rA
-         
+
+      - name: Uploud test reporte
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: test-repots/
 
 
 
