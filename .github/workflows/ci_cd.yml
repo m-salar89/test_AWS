@@ -95,7 +95,22 @@ jobs:
             echo "No requirements.txt -> skipping dependency install"
             mkdir -p src
           fi
+      - name: Build ZIP at repo root
+        run: |
+          cd lambdaForTestingGithub/src
+          zip -r ../../$ZIP_NAME .
+      
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with: 
+            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            aws-region: ${{ env.REGION }}
 
+      - name: Verify identity and list functions (quick sanity)
+        run: |
+          aws sts get-caller-identity
+          aws lambda list-functions --region "${REGION}" | jq -r '.Functions[].FunctionName' || true
 
 
 
