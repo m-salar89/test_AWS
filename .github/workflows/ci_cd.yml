@@ -111,6 +111,6 @@ jobs:
         run: |
           aws sts get-caller-identity
           aws lambda list-functions --region "${REGION}" | jq -r '.Functions[].FunctionName' || true
-
+      #zugangsdaten in Github angelegt
 
 
