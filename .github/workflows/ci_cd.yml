@@ -49,15 +49,11 @@ jobs:
         env:
           PYTHONPATH: lambdaForTestingGithub/src
         run: | 
-         
-          ls -la | grep -E '(^| )pytest$'     # Prüfen, ob eine Datei 'pytest' da ist
-          type -a pytest                      # Zeigt, was wirklich aufgerufen wird
-
 
           mkdir -p test-reports 
           # führe alle Tests im Repo aus (passt, wenn tests/ oder projekt-root Tests enthält)
           pytest -q --junitxml=test-reports/junit.xml -rA
-          #um zu testen 
+         
 
 
 

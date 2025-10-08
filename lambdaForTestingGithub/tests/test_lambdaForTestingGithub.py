@@ -1,10 +1,13 @@
 import json
 import pytest
+import boto3
 
-def lambda_handler(event, context):
-    # TODO implement
-    return {
-        'statusCode': 200,
-        'body': json.dumps('Hello from Lambda!')
-    }
+
+import sys
+sys.path.append("src")
+
+
+def test_dateipytestTesten():
+
+    print("pytest funktioniert")
 
