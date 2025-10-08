@@ -47,9 +47,9 @@ jobs:
       - name: Run pytest
         # damit die lambda-pkg-src importierbar ist, falls die tests die src-Module nutzen
         env:
-          PYTHONPATH: lambdaForTestingGithub/src/pytest.ini
+          PYTHONPATH: lambdaForTestingGithub/src/
         run: | 
-          mkdir -p test-reports
+          mkdir -p pytest
           # führe alle Tests im Repo aus (passt, wenn tests/ oder projekt-root Tests enthält)
           pytest -q --junitxml=test-reports/junit.xml -rA
           #um zu testen 
