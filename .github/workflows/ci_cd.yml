@@ -84,9 +84,9 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-          
+
       - name: Install dependencies (if any)
-        working-directory: ./zl_create_user_json_iot
+        working-directory: ./lambdaForTestingGithub
         run: |
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then
