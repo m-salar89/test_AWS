@@ -134,7 +134,7 @@ jobs:
             aws lambda wait function-updated --function-name "${FUNCTION_NAME}" --region "${REGION}"
             echo "Update fertig."
           else
-            echo "Lambda '${FUNCTION_NAME}' nicht gefunden → Erstelle…"
+            echo "Lambda ${FUNCTION_NAME} nicht gefunden → Erstelle…"
             aws lambda create-function \
               --function-name "${FUNCTION_NAME}" \
               --runtime "${RUNTIME}" \
