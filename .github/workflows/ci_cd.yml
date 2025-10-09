@@ -65,9 +65,9 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      FUNCTION_NAME: labdaForTestingGithub
+      FUNCTION_NAME: lambdaForTestingGithub
       REGION: eu-north-1
-      ZIP_NAME: labdaForTestingGithub.zip
+      ZIP_NAME: lambdaForTestingGithub.zip
       ROLE_ARN: arn:aws:iam::329998969228:role/CreatAndDeployFromYaml   # muss existieren
       RUNTIME: python3.11
       HANDLER: app.lambda_handler                                # z.B. package.module:function
