@@ -68,6 +68,10 @@ jobs:
       FUNCTION_NAME: labdaForTestingGithub
       REGION: eu-north-1
       ZIP_NAME: labdaForTestingGithub.zip
+      ROLE_ARN: arn:aws:iam::329998969228:role/CreatAndDeployFromYaml   # muss existieren
+      RUNTIME: python3.11
+      HANDLER: app.lambda_handler                                # z.B. package.module:function
+      ARCH: x86_64     
 
     steps: 
       - name: checkout repository
@@ -125,5 +129,26 @@ jobs:
             --zip-file "fileb://$ZIP_NAME" \
             --region "${REGION}"
 
+            # optional warten bis Update aktiv ist
+            aws lambda wait function-updated --function-name "${FUNCTION_NAME}" --region "${REGION}"
+            echo "Update fertig."
+          else
+            echo "Lambda '${FUNCTION_NAME}' nicht gefunden → Erstelle…"
+            aws lambda create-function \
+              --function-name "${FUNCTION_NAME}" \
+              --runtime "${RUNTIME}" \
+              --handler "${HANDLER}" \
+              --role "${ROLE_ARN}" \
+              --architectures "${ARCH}" \
+              --zip-file "fileb://${ZIP_NAME}" \
+              --region "${REGION}" \
+              #${TIMEOUT:+--timeout "${TIMEOUT}"} \
+              #${MEMORY:+--memory-size "${MEMORY}"} >/dev/null
 
+            # warten bis Funktion aktiv ist (verhindert Race-Conditions bei direkt folgendem Invoke)
+            aws lambda wait function-active --function-name "${FUNCTION_NAME}" --region "${REGION}"
+            echo "Erstellung fertig."
+          fi
+
+          
 
