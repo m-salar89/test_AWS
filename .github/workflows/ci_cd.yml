@@ -121,15 +121,14 @@ jobs:
       - name: Deploy Lambda (update code)
         run: |
           test -f "${ZIP_NAME}" || (echo "ZIP not found" && exit 1)
-          if ! aws lambda get-function --function-name "${FUNCTION_NAME}" --region "${REGION}" >/dev/null 2>&1; then
-            echo "ERROR: Function '${FUNCTION_NAME}' not found in region '${REGION}'."
-            echo "Create it once (aws lambda create-function ...) or adjust FUNCTION_NAME/REGION."
-            exit 1
+          if aws lambda get-function --function-name "${FUNCTION_NAME}" --region "${REGION}" >/dev/null 2>&1; then
+            echo  Function '${FUNCTION_NAME}' existiert in '${REGION}' ->Code update."
+       
          
             aws lambda update-function-code \
-            --function-name "${FUNCTION_NAME}" \
-            --zip-file "fileb://$ZIP_NAME" \
-            --region "${REGION}"
+              --function-name "${FUNCTION_NAME}" \
+              --zip-file "fileb://$ZIP_NAME" \
+              --region "${REGION}"
 
             # optional warten bis Update aktiv ist
             aws lambda wait function-updated --function-name "${FUNCTION_NAME}" --region "${REGION}"
