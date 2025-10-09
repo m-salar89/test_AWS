@@ -120,9 +120,9 @@ jobs:
       
       - name: Deploy Lambda (update code)
         run: |
-          test -f "${ZIP_NAME}" || (echo "ZIP not found" && exit 1)
+          test -f "${ZIP_NAME}" || { (echo "ZIP not found" && exit 1) }
           if aws lambda get-function --function-name "${FUNCTION_NAME}" --region "${REGION}" >/dev/null 2>&1; then
-            echo  Function '${FUNCTION_NAME}' existiert in '${REGION}' ->Code update."
+            echo  "Function '${FUNCTION_NAME}' existiert in '${REGION}' ->Code update."
        
          
             aws lambda update-function-code \
