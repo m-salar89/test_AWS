@@ -124,9 +124,9 @@ jobs:
           if ! aws lambda get-function --function-name "${FUNCTION_NAME}" --region "${REGION}" >/dev/null 2>&1; then
             echo "ERROR: Function '${FUNCTION_NAME}' not found in region '${REGION}'."
             echo "Create it once (aws lambda create-function ...) or adjust FUNCTION_NAME/REGION."
-            #exit 1
-          fi
-          aws lambda update-function-code \
+            exit 1
+         
+            aws lambda update-function-code \
             --function-name "${FUNCTION_NAME}" \
             --zip-file "fileb://$ZIP_NAME" \
             --region "${REGION}"
