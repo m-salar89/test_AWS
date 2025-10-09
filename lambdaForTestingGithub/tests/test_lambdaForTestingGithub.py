@@ -12,7 +12,7 @@ from lambda_function import lambda_handler
 def test_dateipytestTesten():
 
     event = {'statusCode': 200,
-        'body': json.dumps('Hallo from local VS!')}
+        'body': json.dumps('dieser änderung ist für testen des workflows!')}
 
     result = lambda_handler(event, None)
     print(result)
