@@ -71,7 +71,9 @@ jobs:
       ROLE_ARN: arn:aws:iam::329998969228:role/CreatAndDeployFromYaml   # muss existieren
       RUNTIME: python3.11
       HANDLER: app.lambda_handler                                # z.B. package.module:function
-      ARCH: x86_64     
+      ARCH: x86_64  
+      TIMEOUT: "30"                                              # optional
+      MEMORY: "256"   
 
     steps: 
       - name: checkout repository
@@ -142,8 +144,8 @@ jobs:
               --architectures "${ARCH}" \
               --zip-file "fileb://${ZIP_NAME}" \
               --region "${REGION}" \
-              #${TIMEOUT:+--timeout "${TIMEOUT}"} \
-              #${MEMORY:+--memory-size "${MEMORY}"} >/dev/null
+              ${TIMEOUT:+--timeout "${TIMEOUT}"} \
+              ${MEMORY:+--memory-size "${MEMORY}"} >/dev/null
 
             # warten bis Funktion aktiv ist (verhindert Race-Conditions bei direkt folgendem Invoke)
             aws lambda wait function-active --function-name "${FUNCTION_NAME}" --region "${REGION}"
