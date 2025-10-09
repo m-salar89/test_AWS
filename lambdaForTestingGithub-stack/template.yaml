@@ -1,0 +1,27 @@
+Transform: AWS::Serverless-2016-10-31
+Parameters: {}
+Resources:
+  LambdaFunctionFunctionlambdaForTestingGithub:
+    Type: AWS::Serverless::Function
+    Properties:
+      MemorySize: 256
+      Description: ''
+      Timeout: 30
+      RuntimeManagementConfig:
+        UpdateRuntimeOn: Auto
+      Handler: app.lambda_handler
+      Role: arn:aws:iam::329998969228:role/CreatAndDeployFromYaml
+      FileSystemConfigs: []
+      FunctionName: lambdaForTestingGithub
+      Runtime: python3.11
+      PackageType: Zip
+      LoggingConfig:
+        LogFormat: Text
+        LogGroup: /aws/lambda/lambdaForTestingGithub
+      RecursiveLoop: Terminate
+      EphemeralStorage:
+        Size: 512
+      Architectures:
+        - x86_64
+      Tracing: PassThrough
+      CodeUri: LambdaFunctionFunctionlambdaForTestingGithub
